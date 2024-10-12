@@ -1,19 +1,15 @@
-# Create docs folder if it doesn't exist
 import os
 
 if not os.path.exists('docs'):
     os.makedirs('docs')
 
-# Define the base URL for openFDA API to search for NSAIDs and their side effects
 def search_nsaid_side_effects(drug_name):
-    # Modify the API query to search for NSAIDs
     url = f'https://api.fda.gov/drug/event.json?search=patient.drug.openfda.pharm_class_epc:"nonsteroidal+anti-inflammatory+drug"+AND+patient.drug.medicinalproduct:{drug_name}&limit=5'
 
-    # Send a GET request to the API
     response = requests.get(url)
 
-    # Save to docs folder
-    with open('docs/nsaid_side_effects.html', 'w') as html_file:
+    # Save the file as index.html
+    with open('docs/index.html', 'w') as html_file:
         html_file.write('<html><head><title>NSAID Side Effects</title></head><body>')
         html_file.write(f'<h1>Side Effects for {drug_name}</h1>')
 
