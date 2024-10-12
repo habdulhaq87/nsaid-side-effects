@@ -1,19 +1,19 @@
-name: Run NSAID Side Effects Script
+name: Run NSAID Side Effects Script and Generate HTML
 
 on:
   push:
     branches:
-      - main  # This will trigger the workflow when changes are pushed to the 'main' branch
+      - main  # Trigger the workflow when changes are pushed to the 'main' branch
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository content
-        uses: actions/checkout@v3  # Update to v3 to use a newer Node.js version
-        
+        uses: actions/checkout@v3  # Updated to v3
+
       - name: Set up Python
-        uses: actions/setup-python@v4  # Update to v4 to use a newer Node.js version
+        uses: actions/setup-python@v4  # Updated to v4
         with:
           python-version: '3.x'  # Define Python version
 
@@ -21,7 +21,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install requests
-      
+
       - name: Run Python script
         run: |
           python search_nsaid_side_effects.py
+
+      # Archive the generated HTML file as an artifact
+      - name: Upload HTML file
+        uses: actions/upload-artifact@v3
+        with:
+          name: nsaid-side-effects-html
+          path: nsaid_side_effects.html
